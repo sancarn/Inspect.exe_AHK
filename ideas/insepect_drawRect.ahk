@@ -1,3 +1,8 @@
+;Code made by Lexicos
+;Click the mouse and drag it across the screen.
+;A red rectangle will be drawn.
+;It would be cool to use this to draw boxes around GUI elements with UI Automation.
+
 OnMessage(0x14, "WM_ERASEBKGND")
 Gui, -Caption +ToolWindow
 Gui, +LastFound
