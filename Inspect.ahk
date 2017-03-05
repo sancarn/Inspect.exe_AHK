@@ -39,7 +39,14 @@ BuildElementTree(hwnd){
 	for k,v in $n
 		ObjRelease(v)
 	$n:={},	TV_Delete()
-	if $u.CompareElements(_e:=$u.ElementFromHandleBuildCache(hwnd,_r),root)
+	;msgbox, % hwnd
+	_e:=$u.ElementFromHandleBuildCache(hwnd,_r)
+	;msgbox, % """" . $e.(_e).CachedName() . """"
+	if (!_e){
+		msgbox, An error occurred while getting element. Reloading application...
+		reload
+	}
+	if $u.CompareElements(_e,root)
 		return	;Do nothing if F8 while desktop selected ; ToDo: EventBased cache search
 	$n[id:=TV_Add($e.(_e).CachedName())]:=_e
 	,((type:=$e.GetCachedPropertyValue(UIA_Property("ControlType")))=UIA_ControlType("Menu"))||(type=UIA_ControlType("ToolBar"))?AddNode(_e,id,1):AddNode(_e,id)	
@@ -257,8 +264,8 @@ cont:="WindowCanMaximize:                  " Bool($e.GetCachedPropertyValue(UIA_
 	. "WindowCanMinimize:                  " Bool($e.GetCachedPropertyValue(UIA_Property("WindowCanMinimize")))				"`n"
 	. "WindowWindowVisualState:            " $e.GetCachedPropertyValue(UIA_Property("WindowWindowVisualState"))				"`n"
 	. "WindowWindowInteractionState:       " $e.GetCachedPropertyValue(UIA_Property("WindowWindowInteractionState"))		"`n"
-	. "WindowIsModal:                      " $e.GetCachedPropertyValue(UIA_Property("WindowIsModal"))						"`n"
-	. "WindowIsTopmost:                    " $e.GetCachedPropertyValue(UIA_Property("WindowIsTopmost"))						"`n" 
+	. "WindowIsModal:                      " Bool($e.GetCachedPropertyValue(UIA_Property("WindowIsModal")))					"`n"
+	. "WindowIsTopmost:                    " Bool($e.GetCachedPropertyValue(UIA_Property("WindowIsTopmost")))				"`n" 
 	return cont
 }
 
